@@ -47,8 +47,11 @@ return array(
 			),
 		),
 		*/
-		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
+		'db'=>CMap::mergeArray(
+		    require(dirname(__FILE__).'/db.php'),
+		    array(
+		        // Put back-end settings there.
+		    )
 		),
 		// uncomment the following to use a MySQL database
 		/*
