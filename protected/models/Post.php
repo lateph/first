@@ -35,10 +35,11 @@ class Post extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idKategori, status', 'numerical', 'integerOnly'=>true),
+			array('idKategori, status, zoom', 'numerical', 'integerOnly'=>true),
 			array('judul, slug', 'length', 'max'=>150),
+			array('alamat, kota, noTelp, fbText, fbLink, twitterText, twitterLink', 'length', 'max'=>150),
 			array('foto', 'length', 'max'=>64),
-			array('tanggalBuat, tanggalModif', 'safe'),
+			array('tanggalBuat, tanggalModif, lat, lng, layanan', 'safe'),
 			array('judul, slug, kontent, idKategori', 'required','on'=>'create, update'),
 			array('fotoFile', 'file', 'types'=>'jpg, gif, png','allowEmpty'=>false,'on'=>'create'),
 			array('fotoFile', 'file', 'types'=>'jpg, gif, png','allowEmpty'=>true,'on'=>'update'),
@@ -78,6 +79,7 @@ class Post extends CActiveRecord
 			'tanggalModif' => 'Tanggal Modif',
 			'fotoFile'=>'Foto',
 			'kategori.nama'=>'Kategori',
+			'kontent'=>'Profile',
 		);
 	}
 

@@ -49,6 +49,9 @@ class PostController extends BackendController
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		$model->lat = -6.2087634;
+		$model->lng = 106.8455989;
+		$model->zoom = 10;
 
 		if(isset($_POST['Post']))
 		{
