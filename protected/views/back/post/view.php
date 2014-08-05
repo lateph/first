@@ -12,7 +12,6 @@ $this->menu=array(
 	array('label'=>'Create Post', 'url'=>array('create')),
 	array('label'=>'Update Post', 'url'=>array('update', 'id'=>$model->id)),
 	array('label'=>'Delete Post', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Post', 'url'=>array('admin')),
 );
 ?>
 
@@ -24,10 +23,23 @@ $this->menu=array(
 		'id',
 		'judul',
 		'slug',
-		'idKategori',
-		'foto',
-		'status',
+		'kategori.nama',
+		array(
+			'name'=>'Kontent',
+			'value'=>$model->detail->kontent,
+			'type'=>'raw',
+		),
+		array(
+			'name'=>'foto',
+			'value'=>'<img src="'.LUpload::raw('Post',$model->foto).'" />',
+			'type'=>'raw',
+		),
+		array(
+			'name'=>'status',
+			'value'=>$model->getStatus(),
+		),
 		'tanggalBuat',
 		'tanggalModif',
 	),
+	  'htmlOptions' => array('class' => 'table table-hover'), 
 )); ?>

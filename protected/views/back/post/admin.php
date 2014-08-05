@@ -37,9 +37,12 @@ $this->adminTitle = 'List Post';
 		array(
 			'name'=>'idKategori',
 			'filter'=>CHtml::listData(Kategori::model()->findAll(),'id','nama'),
+      'value'=>'$data->kategori->nama',
 		),
 		array(
 			'name'=>'foto',
+      'type'=>'raw',
+      'value'=>'\'<img src="\'.LUpload::thumbs("Post",$data->foto,"100x100").\'" />\' ',
 		),
 		 array(
             'filter'=>Post::listStatus(),

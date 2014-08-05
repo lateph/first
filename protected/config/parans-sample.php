@@ -4,4 +4,6 @@
 // Any writable CConsoleApplication properties can be configured here.
 return array(
 	'adminEmail'=>'',
+	'uploadPath'=>'',
+	'uploadUrl'=>'',
 );

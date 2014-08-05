@@ -84,7 +84,7 @@ class Kategori extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
+		
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nama',$this->nama,true);
 		$criteria->compare('status',$this->status);

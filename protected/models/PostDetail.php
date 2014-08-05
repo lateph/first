@@ -17,6 +17,11 @@ class PostDetail extends CActiveRecord
 		return 'post_detail';
 	}
 
+	public function primaryKey()
+	{
+	    return 'idPost';
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

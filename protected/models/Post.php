@@ -18,6 +18,7 @@ class Post extends CActiveRecord
 	const STATUS_AKTIF=1;
     const STATUS_NON_AKTIF=2;
 	public $kontent;
+	public $fotoFile;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -38,7 +39,10 @@ class Post extends CActiveRecord
 			array('judul, slug', 'length', 'max'=>150),
 			array('foto', 'length', 'max'=>64),
 			array('tanggalBuat, tanggalModif', 'safe'),
-			array('judul, slug, kontent, idKategori', 'required','on'=>'create'),
+			array('judul, slug, kontent, idKategori', 'required','on'=>'create, update'),
+			array('fotoFile', 'file', 'types'=>'jpg, gif, png','allowEmpty'=>false,'on'=>'create'),
+			array('fotoFile', 'file', 'types'=>'jpg, gif, png','allowEmpty'=>true,'on'=>'update'),
+
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, judul, slug, idKategori, foto, status, tanggalBuat, tanggalModif', 'safe', 'on'=>'search'),
@@ -54,6 +58,7 @@ class Post extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'detail'=>array(self::HAS_ONE,'PostDetail','idPost'),
+			'kategori'=>array(self::BELONGS_TO,'Kategori','idKategori'),
 		);
 	}
 
@@ -71,6 +76,8 @@ class Post extends CActiveRecord
 			'status' => 'Status',
 			'tanggalBuat' => 'Tanggal Buat',
 			'tanggalModif' => 'Tanggal Modif',
+			'fotoFile'=>'Foto',
+			'kategori.nama'=>'Kategori',
 		);
 	}
 
@@ -91,7 +98,7 @@ class Post extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
+		$criteria->with = array('kategori');
 		$criteria->compare('id',$this->id);
 		$criteria->compare('judul',$this->judul,true);
 		$criteria->compare('slug',$this->slug,true);
@@ -127,5 +134,31 @@ class Post extends CActiveRecord
 	public function getStatus(){
 		$ar = self::listStatus();
 		return @$ar[$this->status];
+	}
+
+	protected function beforeSave(){
+		if($this->isNewRecord){
+			$this->tanggalBuat = date('Y-m-d H:i:s');
+			$this->tanggalModif = date('Y-m-d H:i:s');
+		}
+		else{
+			$this->tanggalModif = date('Y-m-d H:i:s');
+		}
+		return parent::beforeSave();
+	}
+	protected function afterSave(){
+		if($this->detail == null){
+			$this->detail = new PostDetail();
+			$this->detail->idPost = $this->id;
+			$this->detail->kontent = $this->kontent;
+			$this->detail->save();
+		}
+		else{
+			if($this->kontent != '' and $this->detail->kontent != $this->kontent){
+				$this->detail->kontent = $this->kontent;
+			}
+			$this->detail->save();
+		}
+		return parent::afterSave();
 	}
 }

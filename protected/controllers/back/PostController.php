@@ -53,8 +53,14 @@ class PostController extends BackendController
 		if(isset($_POST['Post']))
 		{
 			$model->attributes=$_POST['Post'];
-			if($model->save())
+			$model->fotoFile=CUploadedFile::getInstance($model,'fotoFile');
+			if($model->validate()){
+				if($model->fotoFile){
+					$model->foto = LUpload::upload($model->fotoFile,'Post');
+				}
+				$model->save();
 				$this->redirect(array('view','id'=>$model->id));
+			}	
 		}
 
 		$this->render('create',array(
@@ -73,12 +79,19 @@ class PostController extends BackendController
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		$model->kontent = $model->detail->kontent;
 
 		if(isset($_POST['Post']))
 		{
 			$model->attributes=$_POST['Post'];
-			if($model->save())
+			$model->fotoFile=CUploadedFile::getInstance($model,'fotoFile');
+			if($model->validate()){
+				if($model->fotoFile){
+					$model->foto = LUpload::upload($model->fotoFile,'Post');
+				}
+				$model->save();
 				$this->redirect(array('view','id'=>$model->id));
+			}
 		}
 
 		$this->render('update',array(
