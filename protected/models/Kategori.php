@@ -14,6 +14,7 @@ class Kategori extends CActiveRecord
 {
 	const STATUS_AKTIF=1;
     const STATUS_NON_AKTIF=2;
+    public $imageFile;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -43,6 +44,9 @@ class Kategori extends CActiveRecord
 			array('status, urut', 'numerical', 'integerOnly'=>true),
 			array('nama, slug', 'length', 'max'=>200),
 			array('nama','required'),
+			array('imageFile', 'file', 'types'=>'jpg, gif, png','allowEmpty'=>true,'on'=>'create'),
+			array('imageFile', 'required','on'=>'create'),
+			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, nama, status, urut, slug', 'safe', 'on'=>'search'),
