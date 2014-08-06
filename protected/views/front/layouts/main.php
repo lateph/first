@@ -39,25 +39,10 @@
   <div class="navbar">
     <div class="container">
       <ul class="nav list-unstyled clearfix">
-        <li><a href="#">Rumah & Alat rumah</a></li>
-        <li><a href="#">Audio</a></li>
-        <li><a href="#">Motor</a></li>
-        <li><a href="#">Komputer</a></li>
-        <li><a href="#">Handphone</a></li>
-        <li><a href="#">Alat-alat listrik</a></li>
-        <li><a href="#">Bodi Mobil</a></li>
-        <li><a href="#">Mesin Mobil</a></li>
-        <li>
-          <a href="#">
-            More
-            <i></i>
-          </a>
-          <ul class="list-unstyled">
-            <li><a href="#">Kesehatan</a></li>
-            <li><a href="#">Alat musik</a></li>
-            <li><a href="#">Fashion</a></li>
-          </ul>
-        </li>
+        <?php $kategoris = Kategori::model()->findAll('status='.Kategori::STATUS_AKTIF); ?>
+        <?php foreach ($kategoris as $key => $value): ?>
+          <li><a href="<?php echo Yii::app()->createUrl('post/kategori',array('id'=>$value->id,'slug'=>$value->slug)); ?>"><?php echo CHtml::encode($value->nama); ?></a></li>
+        <?php endforeach ?>
       </ul>
     </div>
   </div>

@@ -9,7 +9,7 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'kategori-form',
 	'enableAjaxValidation'=>false,
-	'htmlOptions'=>array('class'=>'form-horizontal', 'role'=>'form'), 
+	'htmlOptions'=>array('class'=>'form-horizontal', 'role'=>'form','enctype'=>'multipart/form-data'), 
 )); ?>
 
 	<div class="alert alert-info">
@@ -49,6 +49,24 @@
 		</div>
 	</div>
 
+	<div class="form-group">
+        <?php echo $form->labelEx($model,'image',array('class'=>'col-sm-2 control-label')); ?> 
+        <div class="col-sm-10">
+            <div class="fileupload fileupload-new" data-provides="fileupload">
+            	<?php if ($model->image): ?>
+            		<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="<?php echo LUpload::thumbs('Kategori',$model->image,'200x150'); ?>" alt="" /></div>
+                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+            	<?php else: ?>
+            		<div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+            	<?php endif ?>
+                <div>
+                    <span class="btn btn-file btn-success"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><?php echo $form->fileField($model,'imageFile'); ?>  </span>
+                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Remove</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 	<div class="form-group ">            
             <div class="col-sm-10 col-sm-offset-2 "> 
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class'=>'btn btn-danger')); ?>
@@ -69,3 +87,7 @@ Yii::app()->clientScript->registerScript('slug',
         });                
         ",
         CClientScript::POS_READY);
+
+Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl.'/assets/css/bootstrap-fileupload.min.css');
+
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl.'/assets/plugins/jasny/js/bootstrap-fileupload.js',  CClientScript::POS_END);

@@ -23,6 +23,11 @@ $this->adminTitle = 'View Kategori #'.$model->id;
 		'id',
 		'nama',
 		array(
+			'name'=>'image',
+			'value'=>'<img src="'.LUpload::raw('Kategori',$model->image).'" />',
+			'type'=>'raw',
+		),
+		array(
 			'name'=>'status',
 			'value'=>$model->getStatus(),
 		),

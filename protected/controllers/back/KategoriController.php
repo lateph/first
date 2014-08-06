@@ -45,7 +45,7 @@ class KategoriController extends BackendController
 	 */
 	public function actionCreate()
 	{
-		$model=new Kategori;
+		$model=new Kategori('create');
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -53,8 +53,14 @@ class KategoriController extends BackendController
 		if(isset($_POST['Kategori']))
 		{
 			$model->attributes=$_POST['Kategori'];
-			if($model->save())
+			$model->imageFile=CUploadedFile::getInstance($model,'imageFile');
+			if($model->validate()){
+				if($model->imageFile){
+					$model->image = LUpload::upload($model->imageFile,'Kategori');
+				}
+				$model->save();
 				$this->redirect(array('view','id'=>$model->id));
+			}
 		}
 
 		$this->render('create',array(
@@ -77,8 +83,14 @@ class KategoriController extends BackendController
 		if(isset($_POST['Kategori']))
 		{
 			$model->attributes=$_POST['Kategori'];
-			if($model->save())
+			$model->imageFile=CUploadedFile::getInstance($model,'imageFile');
+			if($model->validate()){
+				if($model->imageFile){
+					$model->image = LUpload::upload($model->imageFile,'Kategori');
+				}
+				$model->save();
 				$this->redirect(array('view','id'=>$model->id));
+			}
 		}
 
 		$this->render('update',array(
