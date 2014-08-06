@@ -84,23 +84,6 @@
             <div class="addthis_native_toolbox"></div></p>
           </div>
           <div class="col-md-4 shop-map">
-            <script>
-              var LocsA = [
-              {
-                lat: -7.782109,
-                lon: 110.372237,
-                zoom: 16,
-                html: '<p><strong>Maju Jaya Workshop</strong></p>',
-                animation: google.maps.Animation.DROP
-              }
-              ];
-              $(document).ready(function() {
-                new Maplace({
-                  locations: LocsA,
-                  map_div: '.shop-map'
-                }).Load();  
-              });
-            </script>
           </div>
         </div>
         <!-- .row -->
@@ -112,7 +95,7 @@
           <div class="col-md-4"><div class="listing clearfix">
             <div class="col-md-3 listing-image-outer">
               <a class="listing-image block" href="#">
-                <img alt="" class="block" src="uploads/mtb.jpg">
+                <img alt="" class="block" src="<?php echo Yii::app()->theme->baseUrl ?>/uploads/mtb.jpg">
               </a>
             </div>
             <div class="col-md-9">
@@ -137,7 +120,7 @@
         <div class="col-md-4"><div class="listing clearfix">
           <div class="col-md-3 listing-image-outer">
             <a class="listing-image block" href="#">
-              <img alt="" class="block" src="uploads/mtb.jpg">
+              <img alt="" class="block" src="<?php echo Yii::app()->theme->baseUrl ?>/uploads/mtb.jpg">
             </a>
           </div>
           <div class="col-md-9">
@@ -162,7 +145,7 @@
       <div class="col-md-4"><div class="listing clearfix">
         <div class="col-md-3 listing-image-outer">
           <a class="listing-image block" href="#">
-            <img alt="" class="block" src="uploads/mtb.jpg">
+            <img alt="" class="block" src="<?php echo Yii::app()->theme->baseUrl ?>/uploads/mtb.jpg">
           </a>
         </div>
         <div class="col-md-9">
@@ -196,13 +179,13 @@
       <h4>26 Reviews</h4>
       <div class="ads-728x90">
         <a class="block" href="#">
-          <img alt="" class="block" src="uploads/ads728x90.png">
+          <img alt="" class="block" src="<?php echo Yii::app()->theme->baseUrl ?>/uploads/ads728x90.png">
         </a>
       </div>
       <ul class="reviews list-unstyled">
         <li class="review"><div class="row">
           <div class="col-sm-3 review-user text-center">
-            <img alt="" class="avatar" src="uploads/ava.jpg">
+            <img alt="" class="avatar" src="<?php echo Yii::app()->theme->baseUrl ?>/uploads/ava.jpg">
             <p><a href="#">John Doe</a></p>
           </div>
           <div class="col-sm-9 review-content">
@@ -225,7 +208,7 @@
       </li>
       <li class="review"><div class="row">
         <div class="col-sm-3 review-user text-center">
-          <img alt="" class="avatar" src="uploads/ava.jpg">
+          <img alt="" class="avatar" src="<?php echo Yii::app()->theme->baseUrl ?>/uploads/ava.jpg">
           <p><a href="#">John Doe</a></p>
         </div>
         <div class="col-sm-9 review-content">
@@ -263,14 +246,14 @@
   <div class="pull-left">
     <div class="ads-160x600">
       <a class="block" href="#">
-        <img alt="" class="block" src="uploads/ads160x600.png">
+        <img alt="" class="block" src="<?php echo Yii::app()->theme->baseUrl ?>/uploads/ads160x600.png">
       </a>
     </div>
   </div>
   <div class="pull-right">
     <div class="ads-300x250">
       <a class="block" href="#">
-        <img alt="" class="block" src="uploads/ads300x250.png">
+        <img alt="" class="block" src="<?php echo Yii::app()->theme->baseUrl ?>/uploads/ads300x250.png">
       </a>
     </div>
   </div>
@@ -280,3 +263,24 @@
 <!-- .container.page-addons -->
 </div>
 <!-- .page -->
+
+<?php
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl.'/assets/plugins/jasny/js/bootstrap-fileupload.js',  CClientScript::POS_END);
+Yii::app()->clientScript->registerScript('maps',
+        "
+        var LocsA = [
+              {
+                lat: <?php echo $post->lat; ?>,
+                lon: <?php echo $post->lng; ?>,
+                zoom: <?php echo $post->zoom; ?>,
+                html: '<p><strong>Maju Jaya Workshop</strong></p>',
+             //   animation: google.maps.Animation.DROP
+              }
+              ];
+                new Maplace({
+                  locations: LocsA,
+                  map_div: '.shop-map'
+                }).Load();  
+              
+        ",
+        CClientScript::POS_READY);
