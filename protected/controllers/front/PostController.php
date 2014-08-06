@@ -7,6 +7,15 @@ class PostController extends Controller
 		$this->render('index');
 	}
 
+	public function actionDetail($id,$slug){
+		$post = Post::model()->findByPk($id);
+		if($post === null)
+			throw new CHttpException('Bengkel Tidak Ditmukan');
+		$this->render('detail',array(
+			'post'=>$post,
+		));
+	}
+
 	// Uncomment the following methods and override them if needed
 	/*
 	public function filters()

@@ -11,6 +11,7 @@ return CMap::mergeArray(
 	        	'showScriptName'=>false,
 				'rules'=>array(
 					'kategori/<id:.*?>/<slug:.*?>'=>'post/kategori', 
+					'bengkel/<id:.*?>/<slug:.*?>'=>'post/detail', 
 				),
 			),
         ),

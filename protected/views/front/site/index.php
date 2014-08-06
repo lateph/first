@@ -65,8 +65,8 @@
             <i class="icon icon-check"></i>
           </div>
           <div class="premium-ribbon t_u">Premium</div>
-          <a class="listing-image block" href="#">
-            <img alt="" class="block" src="<?php echo Yii::app()->theme->baseUrl; ?>/uploads/mtb.jpg">
+          <a class="listing-image block" href="<?php echo Yii::app()->createUrl('post/detail',array('id'=>$value->id,'slug'=>$value->slug)); ?>">
+            <img alt="" class="block" src="<?php echo LUpload::thumbs('Post',$value->foto,'615x430'); ?>">
           </a>
           <div class="listing-info">
             <h4 class="roboto">
