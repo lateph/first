@@ -2,7 +2,7 @@
     <div class="container page-details">
       <div class="row shop-header">
         <div class="col-md-9">
-          <img alt="" class="shop-logo pull-left" src="uploads/ava.jpg">
+          <img alt="" class="shop-logo pull-left" src="<?php echo Yii::app()->theme->baseUrl ?>/uploads/ava.jpg">
           <div class="shop-name">
             <h3 class="page-title roboto"><?php echo $post->judul; ?></h3>
             <p class="grey"><?php echo $post->alamat; ?></p>
