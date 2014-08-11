@@ -42,7 +42,12 @@ class SiteController extends ApiController
 	public function actionRegister(){
 		$model = new ApiRegisterForm();
 		$model->attributes = $_POST;
-		if($model->save()){
+		if($model->validate()){
+			if($model->password and $model->passwordKonfirm){
+				$model->password = $model->hashPassword($model->password);
+				$model->passwordKonfirm = $model->hashPassword($model->passwordKonfirm);
+			}
+			$model->save(false);	
 			$model->generateToken();
 			$this->send(array(
 				'token'=>$model->token,

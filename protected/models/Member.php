@@ -101,7 +101,7 @@ class Member extends CActiveRecord
 
 	public function validatePassword($password)
     {
-        return md5($password) == $this->password;
+        return $this->hashPassword($password) == $this->password;
     }
  
     public function hashPassword($password)

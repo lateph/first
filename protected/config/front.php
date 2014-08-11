@@ -10,10 +10,17 @@ return CMap::mergeArray(
 	        	'urlFormat'=>'path',
 	        	'showScriptName'=>false,
 				'rules'=>array(
+                    'register'=>'site/register',
+                    'login'=>'site/login',
+                    'logout'=>'site/logout',
+                    
 					'kategori/<id:.*?>/<slug:.*?>'=>'post/kategori', 
 					'bengkel/<id:.*?>/<slug:.*?>'=>'post/detail', 
 				),
 			),
+        ),
+        'import'=>array(
+            'application.models.front.*',
         ),
     )
 );
