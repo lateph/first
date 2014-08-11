@@ -34,7 +34,7 @@ class SiteController extends ApiController
 				$this->sendErrorMessage('Wrong User or password');
 			}
 		}else{
-			$this->send($model->getErrors(),0);
+			$this->sendErrorMessage('Wrong User or password');
 		}
 		
 	}

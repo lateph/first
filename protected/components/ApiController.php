@@ -7,17 +7,22 @@ class ApiController extends CController
 {
 	public function send($data,$status=1){
 		header('Content-Type: application/json');
-		echo CJSON::encode(array(
-			'status'=>$status,
-			'data'=>$data
-		));
+		$_json = '';
+		if($data instanceof IApiJSON){
+			$_json = $data->render();
+		}
+		else{
+			$_json = array(
+				'status'=>$status,
+				'data'=>$data
+			);
+		}
+		echo CJSON::encode($_json);
 		Yii::app()->end();
 	}
 
 	public function sendErrorMessage($msg,$status=0){
-		$this->send(array(
-			'message'=>$msg,
-		),$status);
+		$this->send(new ApiMessage($msg,0));
 	}
 
 	public function sendSuccessMessage($msg,$status=0){
