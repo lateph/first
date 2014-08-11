@@ -6,4 +6,8 @@ class DataController extends ApiController
 		$lokasi = Lokasi::model()->findAll();
 		$this->send($lokasi);
 	}
+	public function actionKategori(){
+		$kategoris = Kategori::model()->findAll();
+		$this->send($kategoris);
+	}
 }
