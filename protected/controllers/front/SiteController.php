@@ -29,6 +29,7 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
+
 		$this->render('index');
 	}
 
@@ -77,7 +78,7 @@ class SiteController extends Controller
 	 */
 	public function actionLogin()
 	{
-		$model=new LoginForm;
+		$model=new FrontLoginForm;
 
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
@@ -87,9 +88,9 @@ class SiteController extends Controller
 		}
 
 		// collect user input data
-		if(isset($_POST['LoginForm']))
+		if(isset($_POST['FrontLoginForm']))
 		{
-			$model->attributes=$_POST['LoginForm'];
+			$model->attributes=$_POST['FrontLoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
 				$this->redirect(Yii::app()->user->returnUrl);
@@ -105,5 +106,27 @@ class SiteController extends Controller
 	{
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
+	}
+
+	public function actionRegister(){
+		$model = new RegisterForm();
+		if(isset($_POST['RegisterForm'])){
+			$model->attributes = $_POST['RegisterForm'];
+			if($model->validate()){
+				$password = $model->password;
+				$model->password = $model->hashPassword($password);
+				if($model->save(false)){
+					$_identity=new FrontUserIdentity($model->username,$password);
+					if($_identity->authenticate()){
+						Yii::app()->user->login($_identity,3600*24);
+						$this->redirect('site/index');
+					}
+				}
+			}	
+		}
+
+		$this->render('register',array(
+			'model'=>$model,
+		));
 	}
 }

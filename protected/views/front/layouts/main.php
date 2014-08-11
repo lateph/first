@@ -29,8 +29,12 @@
         </form>
       </div>
       <div class="col-md-3 offset-md-1 btn-group">
-        <a class="btn half half-left" href="#">Login</a>
-        <a class="btn btn-white half half-right" href="#">Sign Up</a>
+        <?php if (Yii::app()->user->isGuest): ?>
+          <a class="btn half half-left" href="<?php echo Yii::app()->createUrl('site/login'); ?>">Login</a>
+          <a class="btn btn-white half half-right" href="<?php echo Yii::app()->createUrl('site/register'); ?>">Sign Up</a>    
+        <?php else: ?>
+           <a class="btn half half-left" href="<?php echo Yii::app()->createUrl('site/logout'); ?>">Logout</a>
+        <?php endif; ?>
       </div>
     </div>
     <!-- .container -->
