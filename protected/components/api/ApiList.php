@@ -14,19 +14,12 @@ class ApiList implements IApiJSON{
         $this->del = $del;
     } 
 
-    private function assign(&$_data,$row,$cols){
-        $ex = explode('.', $cols);
-        if(count($ex) == 1){
-            $_data[$cols] = $row->$cols;
+    private function assign(&$_data,$row,$cols,$key){
+        if(!($cols instanceof ApiCObject)){
+            $cols = new ApiCObject($cols);
         }
-        if(count($ex) == 2){
-            $ex0 = $ex[0];
-            $ex1 = $ex[1];
-            if(!isset($_data[$ex0])){
-                $_data[$ex0] = array();
-            }
-            $_data[$ex0][$ex1] = $row->$ex0->$ex1;
-        }
+        $cols->setData($_data,$row,$key);
+        $cols->renderColumn();
     }
     public function render(){
         $data = array();
@@ -39,14 +32,14 @@ class ApiList implements IApiJSON{
         else{
             foreach($this->list as $row){
                 foreach($this->cols as $key=>$col){
-                    $this->assign($_data,$row,$col);
+                    $this->assign($_data,$row,$col,$key);
                 }
             } 
         }
 
         if(empty($this->add)){
             foreach($this->add as $key=>$col){
-                $_data[$col] = $row->$col;
+                $this->assign($_data,$row,$col,$key);
             }
         }
 

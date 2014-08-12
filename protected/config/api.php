@@ -18,6 +18,7 @@ return CMap::mergeArray(
 		),
        'import'=>array(
 			'application.models.api.*',
+			'application.components.api.*',
 		),
     )
 );

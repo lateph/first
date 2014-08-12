@@ -5,13 +5,13 @@ class PostController extends ApiController
 	public function actionIndex(){
 		$posts = Post::model()->findAll();
 		$this->send(new ApiList($posts,1,array(
-			'id',
+			new ApiCInt('id'),
 			'judul',
-			'kategori.id',
+			new ApiCInt('kategori.id'),
 			'kategori.nama',
 			'kota',
 			'totalReview',
-			'premium',
+			new ApiCInt('premium'),
 		)));
 	}
 	public function actionKategori(){
