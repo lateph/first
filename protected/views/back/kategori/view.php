@@ -12,19 +12,22 @@ $this->menu=array(
 	array('label'=>'Create Kategori', 'url'=>array('create')),
 	array('label'=>'Update Kategori', 'url'=>array('update', 'id'=>$model->id)),
 	array('label'=>'Delete Kategori', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Kategori', 'url'=>array('admin')),
 );
-?>
 
-<h1>View Kategori #<?php echo $model->id; ?></h1>
+$this->adminTitle = 'View Kategori #'.$model->id;
+?>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id',
 		'nama',
-		'status',
+		array(
+			'name'=>'status',
+			'value'=>$model->getStatus(),
+		),
 		'urut',
 		'slug',
 	),
+	   'htmlOptions' => array('class' => 'table table-hover'),  
 )); ?>
