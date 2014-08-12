@@ -62,6 +62,8 @@ class Post extends CActiveRecord
 			'kategori'=>array(self::BELONGS_TO,'Kategori','idKategori'),
 			'galerys'=>array(self::HAS_MANY,'Postgalery','idPost'),
 			'totalReview'=>array(self::STAT,'Review','idPost'),
+			'reviews'=>array(self::HAS_MANY,'Review','idPost'),
+			'member'=>array(self::BELONGS_TO,'Member','idMember'),
 		);
 	}
 

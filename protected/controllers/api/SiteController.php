@@ -57,38 +57,11 @@ class SiteController extends ApiController
 		}
 	}
 
-	/**
-	 * Displays the contact page
-	 */
-	public function actionContact()
+	public function actionError()
 	{
-		$model=new ContactForm;
-		if(isset($_POST['ContactForm']))
+		if($error=Yii::app()->errorHandler->error)
 		{
-			$model->attributes=$_POST['ContactForm'];
-			if($model->validate())
-			{
-				$name='=?UTF-8?B?'.base64_encode($model->name).'?=';
-				$subject='=?UTF-8?B?'.base64_encode($model->subject).'?=';
-				$headers="From: $name <{$model->email}>\r\n".
-					"Reply-To: {$model->email}\r\n".
-					"MIME-Version: 1.0\r\n".
-					"Content-type: text/plain; charset=UTF-8";
-
-				mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers);
-				Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
-				$this->refresh();
-			}
+			$this->sendErrorMessage($error['message']);
 		}
-		$this->render('contact',array('model'=>$model));
-	}
-
-	/**
-	 * Logs out the current user and redirect to homepage.
-	 */
-	public function actionLogout()
-	{
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
 	}
 }

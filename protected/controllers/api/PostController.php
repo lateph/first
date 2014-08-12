@@ -9,6 +9,24 @@ class PostController extends ApiController
 		$criteria->limit  = $perPage;
 		$criteria->offset = ((isset($_POST['page']) ? $_POST['page'] : 1)-1) * $perPage;
 		$criteria->addCondition('t.status = :status');
+
+		if(isset($_POST['idLokasi']) and !empty($_POST['idLokasi'])){ 
+			$criteria->addColumnCondition(array(
+				'idLokasi'=>$_POST['idLokasi'],
+			));
+		}
+		if(isset($_POST['idKategori']) and !empty($_POST['idKategori'])){ 
+			$criteria->addColumnCondition(array(
+				'idKategori'=>$_POST['idKategori'],
+			));
+		}
+		if(isset($_POST['search']) and !empty($_POST['search'])){
+			$criteria->with[] = 'detail';
+			$criteria->addCondition('t.judul like :search1 or detail.kontent like :search2');
+			$criteria->params[':search1'] = '%'.$_POST['search'].'%';
+			$criteria->params[':search2'] = '%'.$_POST['search'].'%';
+		}
+
 		$criteria->params[':status'] = Post::STATUS_AKTIF;
 		$posts = Post::model()->findAll($criteria);
 		$this->send(new ApiList($posts,1,array(
@@ -21,8 +39,27 @@ class PostController extends ApiController
 			new ApiCInt('premium'),
 		)));
 	}
-	public function actionKategori(){
-		$kategoris = Kategori::model()->findAll();
-		$this->send(new ApiList($kategoris,1));
+	public function actionDetail($id){
+		$post = Post::model()->with(array(
+			'detail',
+			'member',
+		//	'reviews',
+		))->findByPk($id);
+		if($post==null)
+			$this->sendErrorMessage('Post Tidak Ditemukan');
+
+		$this->send(new ApiSingle($post,1,array(
+			'alamat',
+			'noTelp',
+			'profil'=>'detail.kontent',
+			'member.id',
+			'member.facebook',
+			'member.twitter',
+			'member.website',
+			'layanan',
+			'galerys',
+			'lng',
+			'lat',
+		)));
 	}
 }

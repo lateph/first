@@ -28,11 +28,11 @@ class Member extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, email, password', 'length', 'max'=>100),
+			array('username, email, password, facebook, twitter, website', 'length', 'max'=>100),
 			array('token', 'length', 'max'=>32),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, username, email, password', 'safe', 'on'=>'search'),
+			array('id, username, email, password, facebook, twitter, website', 'safe', 'on'=>'search'),
 		);
 	}
 
