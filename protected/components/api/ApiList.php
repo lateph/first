@@ -23,28 +23,25 @@ class ApiList implements IApiJSON{
     }
     public function render(){
         $data = array();
-        $_data = array();
-        if(empty($this->cols)){
-           foreach($this->list as $row){
-                $_data = $row;
-            } 
-        }
-        else{
-            foreach($this->list as $row){
+        foreach($this->list as $row){
+            $_data = array();
+            if(empty($this->cols)){
+                $_data = $row;  
+            }
+            else{
                 foreach($this->cols as $key=>$col){
                     $this->assign($_data,$row,$col,$key);
                 }
-            } 
-        }
-
-        if(empty($this->add)){
-            foreach($this->add as $key=>$col){
-                $this->assign($_data,$row,$col,$key);
             }
+
+            if(empty($this->add)){
+                foreach($this->add as $key=>$col){
+                    $this->assign($_data,$row,$col,$key);
+                }
+            }
+            $data[] = $_data;
         }
 
-        $data[] = $_data;
-        
     	return array(
     		'status'=>$this->status,
     		'data'=>$data,
