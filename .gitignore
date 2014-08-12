@@ -16,4 +16,5 @@ upload/Agency/*
 !upload/Foto/watermarked/.gitignore
 !upload/Watermark/.gitignore
 /index.php
+/admin.php
 /protected/yiic.php
