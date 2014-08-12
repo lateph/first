@@ -57,7 +57,12 @@ class PostController extends ApiController
 			'member.twitter',
 			'member.website',
 			'layanan',
-			'galerys',
+			new ApiCList('galerys',array(
+				'id',
+				new ApiCCustom('image',function($value){
+					return LUpload::raw('PostGalery',$value);
+				}),
+			)),
 			'lng',
 			'lat',
 		)));
