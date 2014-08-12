@@ -23,6 +23,6 @@ class PostController extends ApiController
 	}
 	public function actionKategori(){
 		$kategoris = Kategori::model()->findAll();
-		$this->send($kategoris);
+		$this->send(new ApiList($kategoris,1));
 	}
 }

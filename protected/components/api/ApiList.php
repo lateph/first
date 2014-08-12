@@ -6,7 +6,7 @@ class ApiList implements IApiJSON{
     protected $add;
     protected $del;
 
-	function __construct($list,$status=0,$cols=array(),$add=array(),$del=array()) {
+	function __construct($list,$status=1,$cols=array(),$add=array(),$del=array()) {
     	$this->list = $list;
     	$this->status = $status;
         $this->cols = $cols;
