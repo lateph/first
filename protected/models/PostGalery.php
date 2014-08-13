@@ -29,7 +29,8 @@ class PostGalery extends CActiveRecord
 		return array(
 			array('idPost', 'numerical', 'integerOnly'=>true),
 			array('image', 'length', 'max'=>64),
-			array('imageFile', 'file', 'types'=>'jpg, gif, png','allowEmpty'=>false,'on'=>'create'),
+			array('imageFile', 'file', 'types'=>'jpg, gif, png','allowEmpty'=>true,'on'=>'create'),
+			array('imageFile', 'required','on'=>'create'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, idPost, image', 'safe', 'on'=>'search'),

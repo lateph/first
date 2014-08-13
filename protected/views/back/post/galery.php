@@ -58,7 +58,7 @@ $this->adminTitle = 'Galery Post #'.$model->id;
 						</div>
 						<?php echo $form->hiddenField($newGalery,'idPost'); ?>
 						 <div class="form-group">
-					        <?php echo $form->labelEx($newGalery,'image',array('class'=>'col-sm-2 control-label')); ?> 
+					        <?php echo $form->labelEx($newGalery,'imageFile',array('class'=>'col-sm-2 control-label')); ?> 
 					        <div class="col-sm-10">
 					            <div class="fileupload fileupload-new" data-provides="fileupload">
 					            	<div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
