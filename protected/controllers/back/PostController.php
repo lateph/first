@@ -102,6 +102,32 @@ class PostController extends BackendController
 		));
 	}
 
+	public function actionGalery($id)
+	{
+		$model=$this->loadModel($id);
+		$galery = new PostGalery('create');
+		$galery->idPost = $id;
+		//print_r($_POST); exit;
+		if(isset($_POST['PostGalery']))
+		{
+			$galery->attributes=$_POST['PostGalery'];
+			$galery->imageFile=CUploadedFile::getInstance($galery,'imageFile');
+			$galery->idPost = $model->id;
+			if($galery->validate()){
+				if($galery->imageFile){
+					$galery->image = LUpload::upload($galery->imageFile,'PostGalery');
+					$galery->save();
+					$this->redirect(array('galery','id'=>$model->id));
+				}
+			}
+		}
+
+		$this->render('galery',array(
+			'model'=>$model,
+			'newGalery'=>$galery,
+		));
+	}
+
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.

@@ -60,6 +60,7 @@ class Post extends CActiveRecord
 		return array(
 			'detail'=>array(self::HAS_ONE,'PostDetail','idPost'),
 			'kategori'=>array(self::BELONGS_TO,'Kategori','idKategori'),
+			'galerys'=>array(self::HAS_MANY,'Postgalery','idPost'),
 		);
 	}
 

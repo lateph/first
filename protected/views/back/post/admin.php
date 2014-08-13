@@ -49,23 +49,29 @@ $this->adminTitle = 'List Post';
             'name'=>'status',
             'value'=>'$data->getStatus()',
         ),
-		array(
-            			'class'=>'CButtonColumn',
-                         'buttons'=>array (
-                            'update'=> array(
-                                'label' => '<i class="icon-edit"></i>',
-                                                'imageUrl' => false,
-                            ),
-                            'view'=>array(
-                                'label' => '<i class="icon-search"></i>',
-                                                'imageUrl' => false,
-                            ),
-                            'delete'=>array(
-                                'label' => '<i class="icon-trash"></i>',
-                                                'imageUrl' => false,
-                            ),
-                        ),
-                         'htmlOptions' => array('style'=>'width:80px')
-            		),
+    array(
+    			'class'=>'CButtonColumn',
+          'template'=>'{view}{update}{galery}{delete}',
+                 'buttons'=>array (
+                    'update'=> array(
+                        'label' => '<i class="icon-edit"></i>',
+                                        'imageUrl' => false,
+                    ),
+                    'view'=>array(
+                        'label' => '<i class="icon-search"></i>',
+                                        'imageUrl' => false,
+                    ),
+                    'delete'=>array(
+                        'label' => '<i class="icon-trash"></i>',
+                                        'imageUrl' => false,
+                    ),
+                    'galery'=>array(
+                      'label' => '<i class="icon-film"></i>',
+                                        'imageUrl' => false,
+                      'url'=>'Yii::app()->createUrl("post/galery", array("id"=>$data->id))',
+                    ),
+                ),
+                 'htmlOptions' => array('style'=>'width:100px')
+    		),
 	),
 )); ?>
