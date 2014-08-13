@@ -338,11 +338,12 @@
                         <span class="pull-right">
                           <i class="icon-angle-left"></i>
                         </span>
-                       &nbsp; <span class="label label-default">1</span>&nbsp;
+                       &nbsp; <span class="label label-default">2</span>&nbsp;
                     </a>
                     <ul class="collapse" id="component-nav">
                        
                         <li class=""><a href="<?php echo Yii::app()->createUrl('kategori'); ?>"><i class="icon-folder-open"></i> Kategori </a></li>
+                        <li class=""><a href="<?php echo Yii::app()->createUrl('post'); ?>"><i class="icon-folder-open"></i> Post </a></li>
                     </ul>
                 </li>
                

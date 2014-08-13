@@ -9,7 +9,6 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Kategori', 'url'=>array('index')),
-	array('label'=>'Manage Kategori', 'url'=>array('admin')),
 );
 
 $this->adminTitle = 'Create Kategori';

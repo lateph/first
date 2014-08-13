@@ -1,0 +1,68 @@
+<?php
+/* @var $this PostController */
+/* @var $model Post */
+
+$this->breadcrumbs=array(
+	'Posts',
+);
+
+$this->menu=array(
+	array('label'=>'Create Post', 'url'=>array('create')),
+);
+
+
+$this->adminTitle = 'List Post';
+?>
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'post-grid',
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
+                 'itemsCssClass' => 'table table-striped table-hover',   
+                    // text format change    
+                       'pagerCssClass'=>'text-center',    
+                       'pager'=>array(    
+                           'header'=>'',
+                           'prevPageLabel'=>'<',
+                           'nextPageLabel'=>'>',
+                               'selectedPageCssClass' => 'active',         
+                               'hiddenPageCssClass' => '',                        
+                               'htmlOptions'=>array(
+                                   'class'=>'pagination',
+                               ),                  
+                           ),  
+	'columns'=>array(
+		'id',
+		'judul',
+		array(
+			'name'=>'idKategori',
+			'filter'=>CHtml::listData(Kategori::model()->findAll(),'id','nama'),
+		),
+		array(
+			'name'=>'foto',
+		),
+		 array(
+            'filter'=>Post::listStatus(),
+            'name'=>'status',
+            'value'=>'$data->getStatus()',
+        ),
+		array(
+            			'class'=>'CButtonColumn',
+                         'buttons'=>array (
+                            'update'=> array(
+                                'label' => '<i class="icon-edit"></i>',
+                                                'imageUrl' => false,
+                            ),
+                            'view'=>array(
+                                'label' => '<i class="icon-search"></i>',
+                                                'imageUrl' => false,
+                            ),
+                            'delete'=>array(
+                                'label' => '<i class="icon-trash"></i>',
+                                                'imageUrl' => false,
+                            ),
+                        ),
+                         'htmlOptions' => array('style'=>'width:80px')
+            		),
+	),
+)); ?>
