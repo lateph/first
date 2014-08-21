@@ -4,7 +4,7 @@ return CMap::mergeArray(
     array(
         // Put front-end settings there
         // (for example, url rules).
-        'theme'=>'front',
+        'theme'=>'depan',
         'components'=>array(
         	'urlManager'=>array(
 	        	'urlFormat'=>'path',
