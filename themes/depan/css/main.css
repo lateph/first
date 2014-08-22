@@ -1,3 +1,20 @@
-body{
-	padding-top:80px;
+body {
+  padding-top: 80px;
+}
+.left-searchbar-form .form-group {
+  margin-bottom: 6px;
+}
+.left-searchbar-form .form-group label {
+  font-size: 12px;
+}
+.left-searchbar-form .form-group .form-control {
+  padding: 6px 8px;
+  font-size: 12px;
+  height: 32px;
+}
+.left-searchbar-form button {
+  padding: 5px 16px;
+}
+.left-searchbar .remove {
+  cursor: pointer;
 }
