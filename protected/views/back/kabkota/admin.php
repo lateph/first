@@ -1,21 +1,36 @@
 <?php
-/* @var $this KategoriController */
-/* @var $model Kategori */
+/* @var $this KabkotaController */
+/* @var $model Kabkota */
 
 $this->breadcrumbs=array(
-	'Kategoris'
+	'Kabkotas'=>array('index'),
+	'Manage',
 );
 
 $this->menu=array(
-	array('label'=>'Create Kategori', 'url'=>array('create')),
+	array('label'=>'Create Kabkota', 'url'=>array('create')),
 );
 
-$this->adminTitle = 'List Kategori';
+Yii::app()->clientScript->registerScript('search', "
+$('.search-button').click(function(){
+	$('.search-form').toggle();
+	return false;
+});
+$('.search-form form').submit(function(){
+	$('#kabkota-grid').yiiGridView('update', {
+		data: $(this).serialize()
+	});
+	return false;
+});
+");
+
+$this->adminTitle = 'List Kabupaten Kota';
 ?>
-            <?php $this->widget('zii.widgets.grid.CGridView', array(
-            	'id'=>'kategori-grid',
-            	'dataProvider'=>$model->search(),
-            	'filter'=>$model,
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'post-grid',
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
                  'itemsCssClass' => 'table table-striped table-hover',   
                     // text format change    
                        'pagerCssClass'=>'text-center',    
@@ -28,23 +43,13 @@ $this->adminTitle = 'List Kategori';
                                'htmlOptions'=>array(
                                    'class'=>'pagination',
                                ),                  
-                           ),  
-            	'columns'=>array(
-            		'id',
-            		'nama',
-                    array(
-                        'filter'=>Kategori::listStatus(),
-                        'name'=>'aktif',
-                        'value'=>'$data->getStatus()',
-                    ),
-                     array(
-                        'filter'=>Kategori::listParent(),
-                        'name'=>'idParent',
-                        'value'=>'$data->parentName()',
-                        'header'=>'Parent',
-                    ),
-            		'urut',
-            		array(
+                           ), 
+	'columns'=>array(
+		'id',
+		'kode',
+		'kode_provinsi',
+		'nama',
+				array(
             			'class'=>'CButtonColumn',
                          'buttons'=>array (
                             'update'=> array(
@@ -62,6 +67,5 @@ $this->adminTitle = 'List Kategori';
                         ),
                          'htmlOptions' => array('style'=>'width:80px')
             		),
-            	),
-            )); ?>
-     
+	),
+)); ?>

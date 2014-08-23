@@ -158,7 +158,7 @@ class Kategori extends CActiveRecord
 
 	public function getStatus(){
 		$ar = self::listStatus();
-		return @$ar[$this->status];
+		return @$ar[$this->aktif];
 	}
 
 	protected function beforeSave(){

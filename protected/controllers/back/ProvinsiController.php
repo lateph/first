@@ -1,6 +1,6 @@
 <?php
 
-class KategoriController extends BackendController
+class ProvinsiController extends BackendController
 {
 	public function filters()
 	{
@@ -45,16 +45,16 @@ class KategoriController extends BackendController
 	 */
 	public function actionCreate()
 	{
-		$model=new Kategori('create');
+		$model=new Provinsi;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-		if(isset($_POST['Kategori']))
+
+		if(isset($_POST['Provinsi']))
 		{
-			$model->attributes=$_POST['Kategori'];
-			if($model->save()){
+			$model->attributes=$_POST['Provinsi'];
+			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
-			}
 		}
 
 		$this->render('create',array(
@@ -74,12 +74,11 @@ class KategoriController extends BackendController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Kategori']))
+		if(isset($_POST['Provinsi']))
 		{
-			$model->attributes=$_POST['Kategori'];
-			if($model->save()){
+			$model->attributes=$_POST['Provinsi'];
+			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
-			}
 		}
 
 		$this->render('update',array(
@@ -106,10 +105,10 @@ class KategoriController extends BackendController
 	 */
 	public function actionIndex()
 	{
-		$model=new Kategori('search');
+				$model=new Provinsi('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Kategori']))
-			$model->attributes=$_GET['Kategori'];
+		if(isset($_GET['Provinsi']))
+			$model->attributes=$_GET['Provinsi'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -121,6 +120,7 @@ class KategoriController extends BackendController
 	 */
 	public function actionAdmin()
 	{
+
 		$this->redirect('index');
 	}
 
@@ -128,12 +128,12 @@ class KategoriController extends BackendController
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Kategori the loaded model
+	 * @return Provinsi the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Kategori::model()->findByPk($id);
+		$model=Provinsi::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -141,11 +141,11 @@ class KategoriController extends BackendController
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Kategori $model the model to be validated
+	 * @param Provinsi $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='kategori-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='provinsi-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

@@ -344,6 +344,8 @@
                        
                         <li class=""><a href="<?php echo Yii::app()->createUrl('kategori'); ?>"><i class="icon-folder-open"></i> Kategori </a></li>
                         <li class=""><a href="<?php echo Yii::app()->createUrl('post'); ?>"><i class="icon-folder-open"></i> Post </a></li>
+                         <li class=""><a href="<?php echo Yii::app()->createUrl('provinsi'); ?>"><i class="icon-folder-open"></i> Provinsi </a></li>
+                         <li class=""><a href="<?php echo Yii::app()->createUrl('kabkota'); ?>"><i class="icon-folder-open"></i> Kabupaten Kota </a></li>
                     </ul>
                 </li>
                
