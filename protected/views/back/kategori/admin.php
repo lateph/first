@@ -38,7 +38,6 @@ $this->adminTitle = 'List Kategori';
                         'value'=>'$data->getStatus()',
                     ),
             		'urut',
-            		'slug',
             		array(
             			'class'=>'CButtonColumn',
                          'buttons'=>array (

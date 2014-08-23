@@ -23,16 +23,14 @@ $this->adminTitle = 'View Kategori #'.$model->id;
 		'id',
 		'nama',
 		array(
-			'name'=>'image',
-			'value'=>'<img src="'.LUpload::raw('Kategori',$model->image).'" />',
-			'type'=>'raw',
+			'name'=>'parent.nama',
+			'value'=>$model->parentName(),
 		),
 		array(
-			'name'=>'status',
+			'name'=>'aktif',
 			'value'=>$model->getStatus(),
 		),
 		'urut',
-		'slug',
 	),
 	   'htmlOptions' => array('class' => 'table table-hover'),  
 )); ?>

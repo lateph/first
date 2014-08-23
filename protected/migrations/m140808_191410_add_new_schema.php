@@ -26,12 +26,14 @@ class m140808_191410_add_new_schema extends CDbMigration
             $this->createTable('t_kategori', array(
                     'id'=>'pk',
                     'nama'=>'varchar(512) NOT NULL',   
-                    'parent_kategori'=>'integer NULL',
+                    'idParent'=>'integer DEFAULT 0',
                     'urut'=>'smallint NULL',
-                    'aktif'=>'varchar(8) NULL',
+                    'aktif'=>'varchar(8)',
             ));                          
             $this->createIndex('t_kategori_nama', 't_kategori', 'nama', true);
+            $this->createIndex('kategori_parent', 't_kategori', 'idParent');
             
+
             $this->createTable('t_event_type', array(
                     'id'=>'pk',
                     'nama'=>'varchar(512) NOT NULL',   

@@ -49,17 +49,14 @@ class KategoriController extends BackendController
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
 		if(isset($_POST['Kategori']))
 		{
 			$model->attributes=$_POST['Kategori'];
-			$model->imageFile=CUploadedFile::getInstance($model,'imageFile');
-			if($model->validate()){
-				if($model->imageFile){
-					$model->image = LUpload::upload($model->imageFile,'Kategori');
-				}
-				$model->save();
+			if($model->save()){
 				$this->redirect(array('view','id'=>$model->id));
+			}
+			else{
+				print_r($model->getErrors());
 			}
 		}
 
@@ -83,12 +80,7 @@ class KategoriController extends BackendController
 		if(isset($_POST['Kategori']))
 		{
 			$model->attributes=$_POST['Kategori'];
-			$model->imageFile=CUploadedFile::getInstance($model,'imageFile');
-			if($model->validate()){
-				if($model->imageFile){
-					$model->image = LUpload::upload($model->imageFile,'Kategori');
-				}
-				$model->save();
+			if($model->save()){
 				$this->redirect(array('view','id'=>$model->id));
 			}
 		}

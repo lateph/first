@@ -1,25 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "t_kategori".
+ * This is the model class for table "t_event_type".
  *
- * The followings are the available columns in table 't_kategori':
+ * The followings are the available columns in table 't_event_type':
  * @property integer $id
  * @property string $nama
- * @property integer $idParent
+ * @property integer $parent_type
  * @property integer $urut
  * @property string $aktif
  */
-class Kategori extends CActiveRecord
+class EventType extends CActiveRecord
 {
-	const STATUS_AKTIF=1;
-	const STATUS_NON_AKTIF=0;
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 't_kategori';
+		return 't_event_type';
 	}
 
 	/**
@@ -31,12 +29,12 @@ class Kategori extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('nama', 'required'),
-			array('idParent, urut', 'numerical', 'integerOnly'=>true),
+			array('parent_type, urut', 'numerical', 'integerOnly'=>true),
 			array('nama', 'length', 'max'=>512),
 			array('aktif', 'length', 'max'=>8),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, nama, idParent, urut, aktif', 'safe', 'on'=>'search'),
+			array('id, nama, parent_type, urut, aktif', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,8 +46,6 @@ class Kategori extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'parent'=>array(self::BELONGS_TO,'Kategori','idParent'),
-			'childs'=>array(self::HAS_MANY,'Kategori','idParent'),
 		);
 	}
 
@@ -61,10 +57,9 @@ class Kategori extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nama' => 'Nama',
-			'idParent' => 'ID Parent',
+			'parent_type' => 'Parent Type',
 			'urut' => 'Urut',
 			'aktif' => 'Aktif',
-			'parent.nama' => 'Parent',
 		);
 	}
 
@@ -88,7 +83,7 @@ class Kategori extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nama',$this->nama,true);
-		$criteria->compare('idParent',$this->idParent);
+		$criteria->compare('parent_type',$this->parent_type);
 		$criteria->compare('urut',$this->urut);
 		$criteria->compare('aktif',$this->aktif,true);
 
@@ -101,84 +96,10 @@ class Kategori extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Kategori the static model class
+	 * @return EventType the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-
-	public static function listStatus(){
-		return array(
-			self::STATUS_AKTIF => 'Aktif',
-			self::STATUS_NON_AKTIF => 'Tidak Aktif',
-		);
-	}
-
-	public static function fetchChild($id,$sub=0,$except=null){
-		$data = array();
-		$criteria = new CDbCriteria();
-		$criteria->addCondition('idParent = :id');
-		$criteria->params[':id'] = $id;
-		$criteria->order = 'urut ASC';
-		$kategoris = Kategori::model()->findAll($criteria);
-		foreach ($kategoris as $key => $value) {
-			if($value->id === $except){
-				continue;
-			}
-			$data[] = array(
-				'id'=>$value->id,
-				'nama'=>$value->nama,
-				'sub'=>$sub,
-			);
-			if(count($value->childs) > 0){
-				foreach (self::fetchChild($value->id,$sub+1,$except) as $key2 => $value2) {
-					$data[] = $value2;
-				}
-			}
-		}
-		return $data;
-	}
-	public static function listParent($except=null){
-		$ret = array(
-			0=>'No Parent',
-		);
-		$arrs = self::fetchChild(0,0,$except);
-		foreach ($arrs as $key => $value) {
-			$id = $value['id'];
-			$text = '|---';
-			for ($i = 0 ; $i < $value['sub'];$i++) {
-				$text.='---';
-			}
-			$text.=$value['nama'];
-			$ret[$id] = $text;
-		}
-		return $ret;
-	}
-
-	public function getStatus(){
-		$ar = self::listStatus();
-		return @$ar[$this->status];
-	}
-
-	protected function beforeSave(){
-		if($this->isNewRecord){
-			if($this->idParent === null){
-				$this->idParent = 0;
-			}
-			if($this->aktif === null){
-				$this->aktif = 1;
-			}
-		}
-		return parent::beforeSave();
-	}
-
-	public function parentName(){
-		if($this->idParent == 0){
-			return 'No Parent';
-		}
-		else{
-			return @$this->parent->nama;
-		}
 	}
 }
