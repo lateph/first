@@ -63,9 +63,9 @@ class m140808_191410_add_new_schema extends CDbMigration
                     'provinsi_id'=>'varchar(8) NOT NULL',
                     'kabkota_id'=>'varchar(8) NULL',
                     'organizer_id'=>'integer NULL',
-                'status_bayar'=>'varchar(8) NOT NULL',    
-                'status_proses'=>'varchar(8) NOT NULL',
-                    'date_create'=>'datetime NOT NULL DEFAUILT CURRENT_DATETIME',
+                    'status_bayar'=>'varchar(8) NOT NULL',    
+                    'status_proses'=>'varchar(8) NOT NULL',
+                    'date_create'=>'datetime NOT NULL',
                     'user_create'=>'integer NOT NULL',
                     'status'=>'varchar(8) NOT NULL',
                 
