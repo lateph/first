@@ -12,6 +12,8 @@
  */
 class EventType extends CActiveRecord
 {
+	const STATUS_AKTIF=1;
+	const STATUS_NON_AKTIF=0;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -101,5 +103,17 @@ class EventType extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public static function listStatus(){
+		return array(
+			self::STATUS_AKTIF => 'Aktif',
+			self::STATUS_NON_AKTIF => 'Tidak Aktif',
+		);
+	}
+
+	public function getStatus(){
+		$ar = self::listStatus();
+		return @$ar[$this->aktif];
 	}
 }

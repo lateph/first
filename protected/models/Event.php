@@ -22,6 +22,14 @@
  */
 class Event extends CActiveRecord
 {
+	const KODE_STATUS_BAYAR = 'EventStatusBayar';
+	const KODE_STATUS_PROSES = 'EventStatusProses';
+
+	const STATUS_BAYAR = 1;
+	const STATUS_BELUM_BAYAR = 0;
+
+	const STATUS_PROSES = 1;
+	const STATUS_BELUM_PROSES = 0;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -132,5 +140,11 @@ class Event extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	protected function beforeSave(){
+		if($this->isNewRecord){
+			$this->date_create = date('Y-m-d H:i:s');
+		}
 	}
 }

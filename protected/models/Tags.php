@@ -10,6 +10,7 @@
  */
 class Tags extends CActiveRecord
 {
+	private static $_items=array(); 
 	/**
 	 * @return string the associated database table name
 	 */
@@ -95,4 +96,27 @@ class Tags extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+
+	      public static function item($domain,$kode)
+        {
+            if(!isset(self::$_items[$domain]))
+            self::loadItems($domain);
+            return isset(self::$_items[$domain][$kode]) ? self::$_items[$domain][$kode] : false;
+        }    
+        
+        public static function loadItems()
+        {
+            //$models= self::model()->findAll();
+            $models=self::model()->findAll(array(
+                'select'=>'t.nama',
+                'distinct'=>true,
+                'order'=>'nama',
+            ));            
+            
+            foreach($models as $model)
+            self::$_items[]=$model->name;             
+            return self::$_items;
+
+        }     
 }
