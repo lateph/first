@@ -127,15 +127,5 @@ class Lookup extends CActiveRecord
             ));
             foreach($models as $model)
             self::$_items[$tipe][$model->kode]=$model->nama;
-        }               
-	public static function Lang($id)
-	{
-            if ($id =='en'){
-                return 1;
-            }elseif($id =='id'){
-                return 2;
-            }elseif($id =='ja'){
-                return 3;
-            }                           
-	}            
+        }    
 }

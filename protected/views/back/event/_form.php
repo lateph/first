@@ -113,23 +113,23 @@
 	</div></div> 
 
 	<div class="form-group">            
-            <?php echo $form->labelEx($model,'status_bayar',array('class'=>'col-sm-2 control-label')); ?>            
+        <?php echo $form->labelEx($model,'status_bayar',array('class'=>'col-sm-2 control-label')); ?>            
             <div class="col-sm-10">
-		<?php echo $form->textField($model,'status_bayar',array('size'=>8,'maxlength'=>8,'class'=>'form-control')); ?>
+        <?php echo $form->DropDownList($model,'status_bayar',Lookup::items(Event::TIPE_STATUS_BAYAR),array('class'=>'form-control')); ?>
 		<?php echo $form->error($model,'status_bayar'); ?>
 	</div></div> 
 
 	<div class="form-group">            
             <?php echo $form->labelEx($model,'status_proses',array('class'=>'col-sm-2 control-label')); ?>            
             <div class="col-sm-10">
-		<?php echo $form->textField($model,'status_proses',array('size'=>8,'maxlength'=>8,'class'=>'form-control')); ?>
+         <?php echo $form->DropDownList($model,'status_proses',Lookup::items(Event::TIPE_STATUS_PROSES),array('class'=>'form-control')); ?>
 		<?php echo $form->error($model,'status_proses'); ?>
 	</div></div> 
 
 	<div class="form-group">            
             <?php echo $form->labelEx($model,'status',array('class'=>'col-sm-2 control-label')); ?>            
             <div class="col-sm-10">
-		<?php echo $form->textField($model,'status',array('size'=>8,'maxlength'=>8,'class'=>'form-control')); ?>
+        <?php echo $form->DropDownList($model,'status',Lookup::items(Event::TIPE_STATUS),array('class'=>'form-control')); ?>
 		<?php echo $form->error($model,'status'); ?>
 	</div></div> 
 

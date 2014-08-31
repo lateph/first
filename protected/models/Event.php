@@ -22,14 +22,18 @@
  */
 class Event extends CActiveRecord
 {
-	const KODE_STATUS_BAYAR = 'EventStatusBayar';
-	const KODE_STATUS_PROSES = 'EventStatusProses';
+	const TIPE_STATUS_BAYAR = 'EventStatusBayar';
+	const TIPE_STATUS_PROSES = 'EventStatusProses';
+	const TIPE_STATUS = 'EventStatus';
 
 	const STATUS_BAYAR = 1;
 	const STATUS_BELUM_BAYAR = 0;
 
 	const STATUS_PROSES = 1;
 	const STATUS_BELUM_PROSES = 0;
+
+	const STATUS_AKTIF = 1;
+	const STATUS_NOT_AKTIF = 0;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -46,7 +50,7 @@ class Event extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, date_publish, description, type, provinsi_id, status_bayar, status_proses, date_create, user_create, status', 'required'),
+			array('title, date_publish, description, type, provinsi_id, status_bayar, status_proses, status', 'required'),
 			array('type, organizer_id, user_create', 'numerical', 'integerOnly'=>true),
 			array('title, thumb', 'length', 'max'=>512),
 			array('provinsi_id, kabkota_id, status_bayar, status_proses, status', 'length', 'max'=>8),
@@ -65,6 +69,7 @@ class Event extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'galerys'=>array(self::HAS_MANY,'EventGalery','idEvent'),
 		);
 	}
 
@@ -145,6 +150,8 @@ class Event extends CActiveRecord
 	protected function beforeSave(){
 		if($this->isNewRecord){
 			$this->date_create = date('Y-m-d H:i:s');
+			$this->user_create = date('Y-m-d H:i:s');
 		}
+		return parent::beforeSave();
 	}
 }

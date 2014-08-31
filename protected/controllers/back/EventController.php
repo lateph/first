@@ -89,14 +89,13 @@ class EventController extends BackendController
 
                     $tagsList = explode(',', $_POST['Tags']);
                     foreach ($tagsList as $TagValue) {  // added to list 
-                        $isExists = Tags::model()->find('name=:name and iddomain=:iddomain', array(':name' => $TagValue, ':iddomain' => $model->iddomain));
+                        $isExists = Tags::model()->find('nama=:name', array(':name' => $TagValue));
                         if (count($isExists) > 0) {
                             $isExists->frequency = $isExists->frequency + 1;        
                             $isExists->save();                                
                         } else {
                             $tagNew = new Tags;
-                            $tagNew->name = $TagValue;
-                            $tagNew->iddomain = $model->iddomain;
+                            $tagNew->nama = $TagValue;
                             $tagNew->frequency = 1;
                             $tagNew->save();
                         }
@@ -239,5 +238,31 @@ class EventController extends BackendController
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+
+	public function actionGalery($id)
+	{
+		$model=$this->loadModel($id);
+		$galery = new EventGalery('create');
+		$galery->idEvent = $id;
+		//print_r($_POST); exit;
+		if(isset($_POST['EventGalery']))
+		{
+			$galery->attributes=$_POST['EventGalery'];
+			$galery->imageFile=CUploadedFile::getInstance($galery,'imageFile');
+			$galery->idEvent = $model->id;
+			if($galery->validate()){
+				if($galery->imageFile){
+					$galery->file = LUpload::upload($galery->imageFile,'EventGalery');
+					$galery->save();
+					$this->redirect(array('galery','id'=>$model->id));
+				}
+			}
+		}
+
+		$this->render('galery',array(
+			'model'=>$model,
+			'newGalery'=>$galery,
+		));
 	}
 }
