@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl ?>/assets/css/theme.css" />
     <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl ?>/assets/css/MoneAdmin.css" />
     <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl ?>/assets/plugins/Font-Awesome/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/assets/css/datetimepicker.min.css" media="screen, projection" />                            
+        
     <!--END GLOBAL STYLES -->
 
     <!-- PAGE LEVEL STYLES -->
@@ -371,6 +373,7 @@
     <!-- GLOBAL SCRIPTS -->
     <<script src="<?php echo Yii::app()->theme->baseUrl ?>/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl ?>/assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl ?>/assets/js/datetimepicker.min.js"></script>  
     <!-- END GLOBAL SCRIPTS -->
 
     <!-- PAGE LEVEL SCRIPTS -->

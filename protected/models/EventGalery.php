@@ -99,4 +99,15 @@ class EventGalery extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	protected function afterSave(){
+		if($this->post->galeryId == null){
+			$this->post->galeryId = $this->id;
+			if(!$this->post->save()){
+				print_r($this->post->getErrors());
+				exit;	
+			}
+		}
+		return parent::afterSave();
+	}
 }

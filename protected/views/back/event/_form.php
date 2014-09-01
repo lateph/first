@@ -22,12 +22,22 @@
 		<?php echo $form->error($model,'title'); ?>
 	</div></div>
 
-	<div class="form-group">            
-            <?php echo $form->labelEx($model,'date_publish',array('class'=>'col-sm-2 control-label')); ?>            
-            <div class="col-sm-10">
-		<?php echo $form->textField($model,'date_publish',array('class'=>'form-control')); ?>
-		<?php echo $form->error($model,'date_publish'); ?>
-	</div></div> 
+
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'date_publish',array('class'=>'col-sm-2 control-label')); ?>
+            <div class="col-sm-5 input-group date form_datetime" data-date-format="yyyy-mm-dd hh:ii" data-link-field="date_publish">
+		<?php echo $form->textField($model,'date_publish',array( 'class'=>'form-control')); ?>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-remove"></span>                        
+                </span>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>                        
+                </span>                           
+            </div>
+            <div class="col-sm-10 col-sm-offset-2 "> 
+		<?php echo $form->error($model,'date_publish'); ?>                    
+            </div>
+	</div>
 
 	<div class="form-group">               
 	     <?php echo $form->labelEx($model,'description',array('class'=>'col-sm-2 control-label')); ?>
@@ -140,3 +150,18 @@
 	</div> </div> 
 
 <?php $this->endWidget(); ?>
+
+
+<?php
+Yii::app()->clientScript->registerScript('datetime-picker',"
+	$('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+        pickerPosition: 'bottom-left', 
+        showMeridian: 0
+    }); 
+");
