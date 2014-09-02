@@ -45,6 +45,25 @@
     <div class="container-fluid">
       <?php echo $content; ?>
     </div>
-      <script src="js/bootstrap.min.js"></script>
+    <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
+    <script src="<?php echo Yii::app()->theme->baseUrl ?>/js/bootstrap.min.js"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl ?>/js/masonry.js"></script>
+    <script type="text/javascript">
+
+     jQuery(document).ready(function() {
+      /*******************************
+          ISOTOPE INIT 
+      ********************************/
+        var $container = $('#items');
+        // $container.imagesLoaded(function(){
+          $container.masonry({
+            itemSelector : '.item',
+            columnWidth : 290,
+            isAnimated: true
+          });
+        // });
+      });
+
+    </script>
    </body>
 </html>
