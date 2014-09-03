@@ -119,7 +119,8 @@ class EventController extends BackendController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+                $oldtags=$model->tags;
+                $val=true;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -250,6 +251,10 @@ class EventController extends BackendController
 		{
 			$galery->attributes=$_POST['EventGalery'];
 			$galery->imageFile=CUploadedFile::getInstance($galery,'imageFile');
+			$info = getimagesize($galery->imageFile->tempName);
+			$galery->width = $info[0];
+			$galery->height = $info[1];
+
 			$galery->idEvent = $model->id;
 			if($galery->validate()){
 				if($galery->imageFile){

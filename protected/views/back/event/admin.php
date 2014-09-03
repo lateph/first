@@ -36,7 +36,7 @@ $this->adminTitle = 'List Event';
 		'id',
 		'title',
 		'date_publish',
-		'description',
+		//'description',
 		'tags',
 		'thumb',
 		/*

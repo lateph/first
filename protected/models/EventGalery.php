@@ -47,6 +47,7 @@ class EventGalery extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'event'=>array(self::BELONGS_TO,'Event','idEvent'),
 		);
 	}
 
@@ -101,10 +102,10 @@ class EventGalery extends CActiveRecord
 	}
 
 	protected function afterSave(){
-		if($this->post->galeryId == null){
-			$this->post->galeryId = $this->id;
-			if(!$this->post->save()){
-				print_r($this->post->getErrors());
+		if($this->event->idGalery == null){
+			$this->event->idGalery = $this->id;
+			if(!$this->event->save()){
+				print_r($this->event->getErrors());
 				exit;	
 			}
 		}

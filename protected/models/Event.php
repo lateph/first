@@ -70,6 +70,7 @@ class Event extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'galerys'=>array(self::HAS_MANY,'EventGalery','idEvent'),
+			'cover'=>array(self::BELONGS_TO,'EventGalery','idGalery'),
 		);
 	}
 
@@ -153,5 +154,25 @@ class Event extends CActiveRecord
 			$this->user_create = date('Y-m-d H:i:s');
 		}
 		return parent::beforeSave();
+	}
+
+	public function getImageCover($width=270){
+		if($this->cover){
+			$height = $this->cover->width / $this->cover->height * $width;
+
+			$url = LUpload::thumbs('EventGalery',$this->cover->file,$width.'x'.$height);
+			return (object)array(
+				'height' => $height,
+				'width' => $width,
+				'url'=>$url,
+			);
+		}
+		else{
+			return (object)array(
+				'height' => 270,
+				'width' => 197,
+				'url'=>Yii::app()->theme->baseUrl.'/images/placeholder.jpg',
+			);
+		}
 	}
 }

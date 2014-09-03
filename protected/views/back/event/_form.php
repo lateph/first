@@ -154,6 +154,12 @@
 
 <?php
 Yii::app()->clientScript->registerScript('datetime-picker',"
+	var cursim = ". json_encode($model->tags) .";
+ 	if(typeof(cursim) != 'undefined' && cursim !== null) {    
+        temp = cursim.split(',');
+        $('#tags').select2('val',temp);
+    }  
+
 	$('.form_datetime').datetimepicker({
         weekStart: 1,
         todayBtn:  1,
