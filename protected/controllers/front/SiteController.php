@@ -2,6 +2,7 @@
 
 class SiteController extends Controller
 {
+	public $limit=2;
 	/**
 	 * Declares class-based actions.
 	 */
@@ -30,7 +31,7 @@ class SiteController extends Controller
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		$criteria = new CDbCriteria();
-		$criteria->limit = 20;
+		$criteria->limit = $this->limit;
 		$events = Event::model()->findAll($criteria);
 		$this->render('index',array(
 			'events'=>$events
@@ -132,5 +133,22 @@ class SiteController extends Controller
 		$this->render('register',array(
 			'model'=>$model,
 		));
+	}
+
+	public function actionLoadJson(){
+		$criteria = new CDbCriteria();
+		$criteria->limit = $this->limit;
+		$criteria->offset = ((int)(@$_POST['page'])-1) * $this->limit; 
+		$events = Event::model()->findAll($criteria);
+		$json = array();
+		foreach ($events as $key => $event) {
+			$json[] = array(
+				'id'=>$event->id,
+				'body'=>$this->renderPartial('_event',array(
+					'event'=>$event,
+				),true),
+			);
+		}
+		echo CJSON::encode($json);
 	}
 }

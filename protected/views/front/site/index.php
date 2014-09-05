@@ -74,9 +74,7 @@
   		</div>
   		<div class="form-group">
 		    <label for="exampleInputPassword1">Provinsi</label>
-		     <select class="form-control" placeholder="Enter email">
-			  	<option>Provisinsi</option>
-			 </select>
+        <?php echo CHtml::dropDownList('kode_provinsi','',CHtml::listData(Provinsi::model()->findAll(),'kode','nama'),array('class'=>'form-control','empty'=>'- Provisinsi -','id'=>'provinsi')); ?>
 		 </div>
 	 
 		<div class="form-group">
@@ -116,3 +114,77 @@
 		<!-- item end -->
 	</div>
 </div>
+
+
+<?php 
+Yii::app()->clientScript->registerScript('waterfall','
+    $container = $("#items");
+
+      $container.masonry({
+        itemSelector:".item",
+        columnWidth: 290,
+        isAnimated: true
+      });
+      
+      var page = 1;
+      var finish = false;
+      var provinsi = "";
+
+      function redraw(){
+        page = 1;
+        
+        var url = "'.Yii::app()->createUrl('site/loadJson').'";   
+        var data = { page : page }; 
+        $.post(url,data,function(ret){
+            if(ret.length > 0){
+              $("#items .item").removeAttr( "id" );
+              $container.masonry("remove",$("#items .item"));
+              $container.masonry()
+
+              $.each(ret,function(key,event){
+                $container.append( event.body ).masonry( "appended", $("#brick-"+event.id) );
+              });
+            }
+            else{
+              finish = true;
+            }
+        },"json");
+      }
+      $("#provinsi").change(function(){
+        provinsi=$(this).val();
+        redraw();
+      });
+
+      // $(window).scroll(function(){
+      //         if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+      //            page++;
+      //            loadArticle(page);
+      //         }
+      // }); 
+      setInterval(function(){
+          if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+             page++;
+             if(finish == false){
+                loadArticle(page);
+             }
+          }
+      }, 200);
+
+      function loadArticle(pageNumber){ 
+          var url = "'.Yii::app()->createUrl('site/loadJson').'";   
+          var data = { page : pageNumber }; 
+          $.post(url,data,function(ret){
+              if(ret.length > 0){
+                $.each(ret,function(key,event){
+                  $container.append( event.body ).masonry( "appended", $("#brick-"+event.id) );
+                });
+              }
+              else{
+                finish = true;
+              }
+          },"json");
+      }
+
+      
+  '
+);

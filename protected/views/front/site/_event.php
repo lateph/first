@@ -1,7 +1,7 @@
 <?php
 	$info = $event->getImageCover();
 ?>
-<div class="item masonry-brick">
+<div class="item masonry-brick" id="brick-<?php echo $event->id; ?>">
     <div class="picture">
       <a class="image" title="Title" href="#">
 	      <img alt="" src="<?php echo $info->url; ?>" height="<?php echo $info->height ?>" width="<?php echo $info->width; ?>">
@@ -22,7 +22,7 @@
         </span>
         <span>
             <i class="icon-heart-empty"></i>
-          10
+          <?php echo $event->id; ?>
         </span>
       </div>
     </div>
