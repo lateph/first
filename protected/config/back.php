@@ -14,5 +14,8 @@ return CMap::mergeArray(
 				),
 			),
 		),
+       'import'=>array(
+			'application.models.back.*',
+		),
     )
 );

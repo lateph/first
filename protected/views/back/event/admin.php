@@ -52,7 +52,7 @@ $this->adminTitle = 'List Event';
 		*/
 		 array(
     			'class'=>'CButtonColumn',
-         		 'template'=>'{view}{update}{galery}{delete}',
+         		 'template'=>'{view}{update}{galery}{delete}{jadwal}',
                  'buttons'=>array (
                     'update'=> array(
                         'label' => '<i class="icon-edit"></i>',
@@ -70,6 +70,11 @@ $this->adminTitle = 'List Event';
                       'label' => '<i class="icon-film"></i>',
                                         'imageUrl' => false,
                       'url'=>'Yii::app()->createUrl("event/galery", array("id"=>$data->id))',
+                    ),
+                    'jadwal'=>array(
+                      'label' => '<i class="icon-calendar"></i>',
+                                        'imageUrl' => false,
+                      'url'=>'Yii::app()->createUrl("event/jadwal", array("id"=>$data->id))',
                     ),
                 ),
                  'htmlOptions' => array('style'=>'width:100px')
