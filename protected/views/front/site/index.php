@@ -68,27 +68,24 @@
   	<form role="form" class="left-searchbar-form">
   		<div class="form-group">
   			<label style="width:100%">Enabled Filter</label>
-  			<span class="label label-danger"><i class="glyphicon glyphicon-remove remove"></i>Provinsi Jakarta</span>
-  			<span class="label label-danger"><i class="glyphicon glyphicon-remove remove"></i>Jakarta</span>
-  			<span class="label label-danger"><i class="glyphicon glyphicon-remove remove"></i>Jakarta</span>
-  		</div>
+  			<span class="label label-danger" id="filter-provinsi" style='display:none'><i class="glyphicon glyphicon-remove remove" class="remove-filter"></i><span class="text-filter"></span></span>
+  		  <span class="label label-danger" id="filter-eventtype" style='display:none'><i class="glyphicon glyphicon-remove remove" class="remove-filter"></i><span class="text-filter"></span></span>
+      </div>
   		<div class="form-group">
 		    <label for="exampleInputPassword1">Provinsi</label>
-        <?php echo CHtml::dropDownList('kode_provinsi','',CHtml::listData(Provinsi::model()->findAll(),'kode','nama'),array('class'=>'form-control','empty'=>'- Provisinsi -','id'=>'provinsi')); ?>
+        <?php echo CHtml::dropDownList('kode_provinsi','',CHtml::listData(Provinsi::model()->findAll(),'id','nama'),array('class'=>'form-control','empty'=>'- Provinsi -','id'=>'provinsi')); ?>
 		 </div>
 	 
 		<div class="form-group">
-		    <label for="exampleInputPassword1">Category</label>
-		     	<select class="form-control" placeholder="Enter email">
-			  	<option>Category</option>
-			 </select>
+		    <label for="exampleInputPassword1">Type</label>
+		    <?php echo CHtml::dropDownList('type','',CHtml::listData(EventType::model()->findAll(),'id','nama'),array('class'=>'form-control','empty'=>'- Event Type -','id'=>'eventtype')); ?>
 		 </div>
 
 		<div class="form-group">
 			<label>Even</label>
-			<input type="text" placeholder="Even" class="form-control">
+      <?php echo CHtml::textField('search','',array("placeholder"=>"Even", "class"=>"form-control",'search')); ?>
 		</div>
-	  	<button type="submit" class="btn btn-default">Submit</button>
+	  	<button type="submit" class="btn btn-default" id="btn-search">Submit</button>
 	</form>
   </div>
 </div>
@@ -117,7 +114,20 @@
 
 
 <?php 
+$mpros = Provinsi::model()->findAll();
+$listProvinsi = array();
+foreach ($mpros as $keyp => $valuep) {
+  $listProvinsi[$valuep->id] = $valuep;
+}
+
+$mtypes = EventType::model()->findAll();
+$eventTypes = array();
+foreach ($mtypes as $keyt => $valuet) {
+  $eventTypes[$valuet->id] = $valuet;
+}
 Yii::app()->clientScript->registerScript('waterfall','
+    var listProvinsi = '.CJSON::encode($listProvinsi).';
+    var eventType = '.CJSON::encode($eventTypes).';
     $container = $("#items");
 
       $container.masonry({
@@ -129,29 +139,80 @@ Yii::app()->clientScript->registerScript('waterfall','
       var page = 1;
       var finish = false;
       var provinsi = "";
+      var eventtype = "";
+      var search="";
 
       function redraw(){
         page = 1;
-        
+        finish = false;
         var url = "'.Yii::app()->createUrl('site/loadJson').'";   
-        var data = { page : page }; 
+        var data = { page : page , idProvinsi : provinsi , idEventType : eventtype, search : search}; 
         $.post(url,data,function(ret){
-            if(ret.length > 0){
-              $("#items .item").removeAttr( "id" );
-              $container.masonry("remove",$("#items .item"));
+              $.each($("#items .item"),function(key,brick){
+                var _id = $(brick).attr("data-id");
+                var _id_html = $(brick).attr("id");
+                if(typeof(ret[_id]) == "undefined"){
+                  console.log(_id_html);
+                  $("#"+_id_html).addClass( "item-to-remove" );
+                }
+              });
+              $("#items .item-to-remove").removeAttr( "id" );
+              $container.masonry("remove",$("#items .item-to-remove"));
+              $("#items .item-to-remove").remove();
               $container.masonry()
 
               $.each(ret,function(key,event){
-                $container.append( event.body ).masonry( "appended", $("#brick-"+event.id) );
+                if($("#brick-"+event.id).length == 0){
+                  $container.append( event.body ).masonry( "appended", $("#brick-"+event.id) );    
+                }
+                else{
+                  console.log($("#brick-"+event.id));
+                }
               });
-            }
-            else{
-              finish = true;
-            }
         },"json");
       }
+      function setProvinsi(idProv){
+        provinsi=idProv;
+        if(idProv !=""){
+          $("#provinsi").val(idProv);
+          $("#filter-provinsi").fadeIn();
+          $("#filter-provinsi .text-filter").text(listProvinsi[idProv].nama);
+        }
+        else{
+          $("#provinsi").val(idProv);
+          $("#filter-provinsi").fadeOut();
+        }
+      }
+      function setEventType(idEventType){
+        eventtype=idEventType;
+        if(idEventType !=""){
+          $("#eventtype").val(idEventType);
+          $("#filter-eventtype").fadeIn();
+          $("#filter-eventtype .text-filter").text(eventType[idEventType].nama);
+        }
+        else{
+          $("#eventtype").val(idEventType);
+          $("#filter-eventtype").fadeOut();
+        }
+      }
+      $("#btn-search").click(function(){
+        setProvinsi($("#provinsi").val());
+        redraw();
+      });
       $("#provinsi").change(function(){
-        provinsi=$(this).val();
+        setProvinsi($(this).val());
+        redraw();
+      });
+       $("#eventtype").change(function(){
+        setEventType($(this).val());
+        redraw();
+      });
+      $("#filter-provinsi .remove").on("click",function(){
+        setProvinsi("");
+        redraw();
+      });
+      $("#filter-eventtype .remove").on("click",function(){
+        setEventType("");
         redraw();
       });
 
@@ -172,7 +233,7 @@ Yii::app()->clientScript->registerScript('waterfall','
 
       function loadArticle(pageNumber){ 
           var url = "'.Yii::app()->createUrl('site/loadJson').'";   
-          var data = { page : pageNumber }; 
+          var data = { page : pageNumber , idProvinsi : provinsi , idEventType : eventtype , search : search}; 
           $.post(url,data,function(ret){
               if(ret.length > 0){
                 $.each(ret,function(key,event){
@@ -184,7 +245,7 @@ Yii::app()->clientScript->registerScript('waterfall','
               }
           },"json");
       }
-
-      
+      setProvinsi("");
+      setEventType("");
   '
 );

@@ -175,4 +175,16 @@ class Event extends CActiveRecord
 			);
 		}
 	}
+
+	public function excerpt($limit=20){
+		$words = explode(' ', strip_tags($this->description) );
+
+	    //if excerpt has more than 20 words, truncate it and append ... 
+	    if( count($words) > 20 ){
+	        return sprintf("%s ...", implode(' ', array_slice($words, 0, $limit)) );
+	    }
+
+	    //otherwise just put it back together and return it
+	    return implode(' ', $words);
+	}
 }

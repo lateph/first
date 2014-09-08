@@ -2,7 +2,7 @@
 
 class SiteController extends Controller
 {
-	public $limit=2;
+	public $limit=10;
 	/**
 	 * Declares class-based actions.
 	 */
@@ -138,11 +138,13 @@ class SiteController extends Controller
 	public function actionLoadJson(){
 		$criteria = new CDbCriteria();
 		$criteria->limit = $this->limit;
+		$criteria->compare('t.provinsi_id',@$_POST['idProvinsi']);
+		$criteria->compare('t.type',@$_POST['idEventType']);
 		$criteria->offset = ((int)(@$_POST['page'])-1) * $this->limit; 
 		$events = Event::model()->findAll($criteria);
 		$json = array();
 		foreach ($events as $key => $event) {
-			$json[] = array(
+			$json[$event->id] = array(
 				'id'=>$event->id,
 				'body'=>$this->renderPartial('_event',array(
 					'event'=>$event,
