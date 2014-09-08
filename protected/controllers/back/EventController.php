@@ -270,4 +270,15 @@ class EventController extends BackendController
 			'newGalery'=>$galery,
 		));
 	}
+
+	public function actionJadwal($id)
+	{
+		$model=$this->loadModel($id);
+		$jadwal = new AddJadwalForm();
+
+		$this->render('jadwal',array(
+			'jadwal'=>$jadwal,
+			'model'=>$model,
+		));
+	}
 }
