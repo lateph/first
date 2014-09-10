@@ -6,6 +6,8 @@
       <!-- Bootstrap -->
       <link href="<?php echo Yii::app()->theme->baseUrl ?>/css/bootstrap.css" rel="stylesheet">
       <link href="<?php echo Yii::app()->theme->baseUrl ?>/css/main.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datetimepicker.min.css" media="screen, projection" />                            
+    
       <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media 
          queries -->
       <!-- WARNING: Respond.js doesn't work if you view the page 
@@ -48,6 +50,7 @@
     <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
     <script src="<?php echo Yii::app()->theme->baseUrl ?>/js/bootstrap.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl ?>/js/masonry.js"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl ?>/js/datetimepicker.min.js"></script>  
     
    </body>
 </html>

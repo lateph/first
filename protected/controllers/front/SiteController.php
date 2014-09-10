@@ -140,6 +140,36 @@ class SiteController extends Controller
 		$criteria->limit = $this->limit;
 		$criteria->compare('t.provinsi_id',@$_POST['idProvinsi']);
 		$criteria->compare('t.type',@$_POST['idEventType']);
+		if(isset($_POST['from']) and trim($_POST['from']) and isset($_POST['end']) and trim($_POST['end'])){
+			$criteria->addCondition('EXISTS (   
+			  SELECT 1    
+			  FROM t_event_jadwal j  
+			  WHERE j.idEvent = t.id   
+			  AND j.from >= :from and j.end <= :end
+			)');
+			$criteria->params[':from'] = $_POST['from'];
+			$criteria->params[':end'] = $_POST['end'];
+		}
+		else{
+			if(isset($_POST['from']) and trim($_POST['from'])){
+				$criteria->addCondition('EXISTS (   
+				  SELECT 1    
+				  FROM t_event_jadwal j  
+				  WHERE j.idEvent = t.id   
+				  AND j.from >= :from
+				)');
+				$criteria->params[':from'] = $_POST['from'];
+			}
+			if(isset($_POST['end']) and trim($_POST['end'])){
+				$criteria->addCondition('EXISTS (   
+				  SELECT 1    
+				  FROM t_event_jadwal j  
+				  WHERE j.idEvent = t.id   
+				  AND j.end <= :end
+				)');
+				$criteria->params[':end'] = $_POST['end'];
+			}
+		}
 		$criteria->offset = ((int)(@$_POST['page'])-1) * $this->limit; 
 		$events = Event::model()->findAll($criteria);
 		$json = array();
@@ -149,6 +179,58 @@ class SiteController extends Controller
 				'body'=>$this->renderPartial('_event',array(
 					'event'=>$event,
 				),true),
+			);
+		}
+		echo CJSON::encode($json);
+	}
+
+	public function actionDetail($id){
+        $event = Event::model()->findByPk($id);
+        if($event===null)
+            throw new CHttpException("Article Not Found");
+        
+        // if($article->related_article){
+        //     $ids = explode(',', $article->related_article);
+        //     $criteria = new CDbCriteria();
+        //     $criteria->addInCondition('t.id',$ids); 
+        //     $criteria->with = array('kategoriberitas');
+        //     $related = Event::model()->findAll($criteria);
+        // }
+        // else{
+        //     $criteria = new CDbCriteria();
+        //     $criteria->addCondition("t.idkategori=:idk"); 
+        //     $criteria->params[':idk'] = $article->idkategori;
+        //     $criteria->with = array('kategoriberitas');
+        //     $criteria->limit = 4;
+        //     $related = Event::model()->findAll($criteria);           
+        // }
+
+        Yii::app()->clientScript->registerMetaTag('text/html; charset=utf-8',null,'content-type');
+        Yii::app()->clientScript->registerMetaTag(YII::app()->language,'language');
+        Yii::app()->clientScript->registerMetaTag('2014 diamondmatcher.com','copyright');
+        // Yii::app()->clientScript->registerMetaTag('diamondmatcher','author');
+        Yii::app()->clientScript->registerMetaTag('all,index,follow','robots');
+        Yii::app()->clientScript->registerMetaTag('index,follow,noodp','googlebot');
+        Yii::app()->clientScript->registerMetaTag('all,index,follow','msnbot');                    
+        // Yii::app()->clientScript->registerMetaTag(YII::app()->name .' - '.$article->summary, 'description');
+        // Yii::app()->clientScript->registerMetaTag(YII::app()->name .', '.$article->tags, 'keywords');  
+                        
+        $this->render('detail',array(
+            'event'=>$event,
+            // 'related'=>$related,
+        ));
+    }
+
+	public function actionTest(){
+		$criteria = new CDbCriteria();
+		$criteria->with = array('jadwals');
+		$criteria->addCondition('jadwals.`from` > \'2014-09-09 15:00:00\'');
+	//	$criteria->limit = 1;
+		$events = Event::model()->findAll($criteria);
+		$json = array();
+		foreach ($events as $key => $event) {
+			$json[$event->id] = array(
+				'id'=>$event->id,
 			);
 		}
 		echo CJSON::encode($json);

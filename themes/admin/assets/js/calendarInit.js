@@ -97,6 +97,7 @@
         },
         windowResize: function (event, ui) {
             $('#calendar').fullCalendar('render');
-        }
+        },
+        events : EVENTS_DATA,
     });
 }

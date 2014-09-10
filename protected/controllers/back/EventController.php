@@ -275,7 +275,14 @@ class EventController extends BackendController
 	{
 		$model=$this->loadModel($id);
 		$jadwal = new AddJadwalForm();
-
+		if(isset($_POST['AddJadwalForm'])){
+			$jadwal->attributes = $_POST['AddJadwalForm'];
+			$jadwal->idEvent = $id;
+			if($jadwal->save()){
+				Yii::app()->user->setFlash('jadwal','Jadwal sudah ditambahkan');
+				$this->refresh();
+			}
+		}
 		$this->render('jadwal',array(
 			'jadwal'=>$jadwal,
 			'model'=>$model,

@@ -39,15 +39,23 @@ class EventJadwal extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('judul', 'required'),
+			array('judul,from,end,idEvent', 'required'),
 			array('idEvent', 'numerical', 'integerOnly'=>true),
 			array('judul', 'length', 'max'=>256),
 			array('key', 'length', 'max'=>10),
-			array('from, end', 'safe'),
+			array('end', 'lebihkecil'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, idEvent, judul, from, end, key', 'safe', 'on'=>'search'),
 		);
+	}
+
+	public function lebihkecil(){
+		if($this->from and $this->end){
+			if(strtotime($this->from) >= strtotime($this->end)){
+				$this->addError('end','Jadwal Tidak Valid');
+			}
+		}
 	}
 
 	/**

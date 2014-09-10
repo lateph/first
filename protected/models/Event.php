@@ -71,6 +71,7 @@ class Event extends CActiveRecord
 		return array(
 			'galerys'=>array(self::HAS_MANY,'EventGalery','idEvent'),
 			'cover'=>array(self::BELONGS_TO,'EventGalery','idGalery'),
+			'jadwals'=>array(self::HAS_MANY,'EventJadwal','idEvent'),
 		);
 	}
 

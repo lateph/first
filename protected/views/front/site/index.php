@@ -70,21 +70,49 @@
   			<label style="width:100%">Enabled Filter</label>
   			<span class="label label-danger" id="filter-provinsi" style='display:none'><i class="glyphicon glyphicon-remove remove" class="remove-filter"></i><span class="text-filter"></span></span>
   		  <span class="label label-danger" id="filter-eventtype" style='display:none'><i class="glyphicon glyphicon-remove remove" class="remove-filter"></i><span class="text-filter"></span></span>
+        <span class="label label-danger" id="filter-from" style='display:none'><i class="glyphicon glyphicon-remove remove" class="remove-filter"></i><span class="text-filter"></span></span>
+        <span class="label label-danger" id="filter-end" style='display:none'><i class="glyphicon glyphicon-remove remove" class="remove-filter"></i><span class="text-filter"></span></span>
       </div>
   		<div class="form-group">
 		    <label for="exampleInputPassword1">Provinsi</label>
         <?php echo CHtml::dropDownList('kode_provinsi','',CHtml::listData(Provinsi::model()->findAll(),'id','nama'),array('class'=>'form-control','empty'=>'- Provinsi -','id'=>'provinsi')); ?>
 		 </div>
 	 
-		<div class="form-group">
+		 <div class="form-group">
 		    <label for="exampleInputPassword1">Type</label>
 		    <?php echo CHtml::dropDownList('type','',CHtml::listData(EventType::model()->findAll(),'id','nama'),array('class'=>'form-control','empty'=>'- Event Type -','id'=>'eventtype')); ?>
 		 </div>
 
-		<div class="form-group">
-			<label>Even</label>
-      <?php echo CHtml::textField('search','',array("placeholder"=>"Even", "class"=>"form-control",'search')); ?>
-		</div>
+  		<div class="form-group">
+  			<label>Even</label>
+        <?php echo CHtml::textField('search','',array("placeholder"=>"Even", "class"=>"form-control",'search')); ?>
+  		</div>
+
+      <div class="form-group">
+        <span class="help-block">Dari</span>
+        <div class="input-group date form_datetime_from" data-date-format="yyyy-mm-dd hh:ii" data-link-field="from">
+             <?php echo CHtml::textField('from','',array( 'class'=>'form-control',"placeholder"=>"Dari")); ?>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-remove"></span>                        
+              </span>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-th"></span>                        
+              </span>                           
+        </div>
+      </div>
+
+      <div class="form-group">
+        <span class="help-block">Sampai</span>
+        <div class="input-group date form_datetime_end" data-date-format="yyyy-mm-dd hh:ii" data-link-field="end">
+             <?php echo CHtml::textField('end','',array( 'class'=>'form-control',"placeholder"=>"Sampai")); ?>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-remove"></span>                        
+              </span>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-th"></span>                        
+              </span>                           
+        </div>
+      </div>
 	  	<button type="submit" class="btn btn-default" id="btn-search">Submit</button>
 	</form>
   </div>
@@ -129,7 +157,9 @@ Yii::app()->clientScript->registerScript('waterfall','
     var listProvinsi = '.CJSON::encode($listProvinsi).';
     var eventType = '.CJSON::encode($eventTypes).';
     $container = $("#items");
-
+    $("#AddJadwalForm_from").change(function(){
+      alert("koplak");
+    });
       $container.masonry({
         itemSelector:".item",
         columnWidth: 290,
@@ -141,12 +171,14 @@ Yii::app()->clientScript->registerScript('waterfall','
       var provinsi = "";
       var eventtype = "";
       var search="";
+      var from = "";
+      var end = "";
 
       function redraw(){
         page = 1;
         finish = false;
         var url = "'.Yii::app()->createUrl('site/loadJson').'";   
-        var data = { page : page , idProvinsi : provinsi , idEventType : eventtype, search : search}; 
+        var data = { page : page , idProvinsi : provinsi , idEventType : eventtype, search : search, from : from , end : end}; 
         $.post(url,data,function(ret){
               $.each($("#items .item"),function(key,brick){
                 var _id = $(brick).attr("data-id");
@@ -195,6 +227,30 @@ Yii::app()->clientScript->registerScript('waterfall','
           $("#filter-eventtype").fadeOut();
         }
       }
+      function setFrom(valFrom){
+          from=valFrom;
+          if(valFrom !=""){
+            $("#from").val(valFrom);
+            $("#filter-from").fadeIn();
+            $("#filter-from .text-filter").text("Dari:"+valFrom);
+          }
+          else{
+            $("#from").val(valFrom);
+            $("#filter-from").fadeOut();
+          }
+      }
+      function setEnd(valEnd){
+          end=valEnd;
+          if(valEnd !=""){
+            $("#end").val(valEnd);
+            $("#filter-end").fadeIn();
+            $("#filter-end .text-filter").text("Sampai:"+valEnd);
+          }
+          else{
+            $("#end").val(valEnd);
+            $("#filter-end").fadeOut();
+          }
+      }
       $("#btn-search").click(function(){
         setProvinsi($("#provinsi").val());
         redraw();
@@ -215,7 +271,14 @@ Yii::app()->clientScript->registerScript('waterfall','
         setEventType("");
         redraw();
       });
-
+      $("#filter-from .remove").on("click",function(){
+        setFrom("");
+        redraw();
+      });
+      $("#filter-end .remove").on("click",function(){
+        setEnd("");
+        redraw();
+      });
       // $(window).scroll(function(){
       //         if  ($(window).scrollTop() == $(document).height() - $(window).height()){
       //            page++;
@@ -233,7 +296,7 @@ Yii::app()->clientScript->registerScript('waterfall','
 
       function loadArticle(pageNumber){ 
           var url = "'.Yii::app()->createUrl('site/loadJson').'";   
-          var data = { page : pageNumber , idProvinsi : provinsi , idEventType : eventtype , search : search}; 
+          var data = { page : pageNumber , idProvinsi : provinsi , idEventType : eventtype , search : search , from : from , end : end}; 
           $.post(url,data,function(ret){
               if(ret.length > 0){
                 $.each(ret,function(key,event){
@@ -247,5 +310,45 @@ Yii::app()->clientScript->registerScript('waterfall','
       }
       setProvinsi("");
       setEventType("");
+      setFrom("");
+      setEnd("");
   '
 );
+Yii::app()->clientScript->registerScript('datetime-picker',"
+    $('.form_datetime').datetimepicker({
+          weekStart: 1,
+          todayBtn:  1,
+                  autoclose: 1,
+                  todayHighlight: 1,
+                  startView: 2,
+                  forceParse: 0,
+          pickerPosition: 'bottom-left', 
+          showMeridian: 0
+      }); 
+     $('.form_datetime_from').datetimepicker({
+          weekStart: 1,
+          todayBtn:  1,
+                  autoclose: 1,
+                  todayHighlight: 1,
+                  startView: 2,
+                  forceParse: 0,
+          pickerPosition: 'bottom-left', 
+          showMeridian: 0
+      }).on('changeDate',function(){
+        setFrom($('#from').val());
+        redraw();
+      }); 
+      $('.form_datetime_end').datetimepicker({
+          weekStart: 1,
+          todayBtn:  1,
+                  autoclose: 1,
+                  todayHighlight: 1,
+                  startView: 2,
+                  forceParse: 0,
+          pickerPosition: 'bottom-left', 
+          showMeridian: 0
+      }).on('changeDate',function(){
+        setEnd($('#end').val());
+        redraw();
+      }); 
+  ");

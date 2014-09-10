@@ -32,6 +32,13 @@ return array(
 
 	// application components
 	'components'=>array(
+		'facebook'=>array(
+		    'class' => 'ext.yii-facebook-opengraph.SFacebook',
+		    'appId'=>'407529026053962', // needed for JS SDK, Social Plugins and PHP SDK
+		    'secret'=>'3965e46eb963d90cdb24908948fd8282', // needed for the PHP SDK
+                    'locale'=>'en_US',
+		    'jsCallback'=>true,
+  		),
 		'image'=>array(
 			'class'=>'application.extensions.image.CImageComponent',
 			// GD or ImageMagick
@@ -78,6 +85,12 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
+				array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'trace',
+                    'categories'=>'system.db.*',
+                    'logFile'=>'sql.log',
+            	),
 				// uncomment the following to show log messages on web pages
 				/*
 				array(
